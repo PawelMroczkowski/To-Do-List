@@ -8,7 +8,7 @@ function addTask() {
         const listItem = document.createElement("li");
         const paragraphElement = document.createElement("p");
                 //task completion
-               // listItem.addEventListener("click" , completeTask);
+            listItem.addEventListener("click" , completeTask);
              
         listItem.appendChild(paragraphElement);
         paragraphElement.textContent = taskText;
