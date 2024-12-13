@@ -33,6 +33,7 @@ function addTask() {
 function completeTask(event) {
     const task = event.target;
     task.classList.toggle("completed");
+   // saveTaskToLocalStorage(); not saving properties
 }
 
 //Task Deletion
