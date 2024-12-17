@@ -7,13 +7,14 @@ function addTask() {
     taskText = taskInput;
     if (taskText !== "")   
     {
-        let task = new Task(taskText)
-        alert(task.taskText.value)
+        let task = {
+            toDo: taskText,
+        }
+        
     }
-}
+
+    }
 
 
-function Task(taskText) {
-    this.taskText = taskText;
-}
+
 
