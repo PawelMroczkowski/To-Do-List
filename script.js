@@ -14,11 +14,9 @@ function addTask() {
         const paragraphElement = document.createElement("p");
         listItem.appendChild(paragraphElement);
 
-
         paragraphElement.textContent = toDo.taskText;
         taskList.appendChild(listItem);
         taskInput.value = "";
-        
 
 
         //task delete
@@ -26,9 +24,15 @@ function addTask() {
         deleteButton.textContent = "Delete";
         deleteButton.addEventListener("click",deleteTask);
         listItem.appendChild(deleteButton);
-    }
 
-    // saveTaskToLocalStorage();
+
+        
+    }
+    const toDoStringified = JSON.stringify(toDo);
+    localStorage.setItem("toDo", toDoStringified);
+
+
+   
 }
 
 
@@ -48,5 +52,3 @@ function clearLocalStorage()    {
     location.reload();
 }
 
-
-//loadTasksFromLocalStorage();
