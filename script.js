@@ -1,9 +1,10 @@
 //Task Addition and Display
 const taskInput = document.getElementById("taskInput");
 const taskList = document.getElementById("taskList");
-
+let a=0;
 function addTask() {
     const toDo  = {
+        id: ++a,
         taskText: taskInput.value.trim()
     }
 
@@ -17,6 +18,8 @@ function addTask() {
         paragraphElement.textContent = toDo.taskText;
         taskList.appendChild(listItem);
         taskInput.value = "";
+        paragraphElement.setAttribute("id",a);
+        paragraphElement.setAttribute("class", "task");
 
 
         //task delete
@@ -29,7 +32,12 @@ function addTask() {
         
     }
     const toDoStringified = JSON.stringify(toDo);
-    localStorage.setItem("toDo", toDoStringified);
+    const tasks = [];
+
+    for (let i=0; i < toDoStringified.length; i++) {
+        tasks.push(toDoStringified[i].textContent);
+    }
+    localStorage.setItem(toDo.id, toDoStringified);
 
 
    
