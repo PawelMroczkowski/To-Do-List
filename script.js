@@ -2,9 +2,10 @@
 const taskInput = document.getElementById("taskInput");
 const taskList = document.getElementById("taskList");
 let a=0;
+
 function addTask() {
     const toDo  = {
-        id: ++a,
+        id: taskInput.value[0] + ++a + taskInput.value[taskInput.value.length-1],
         taskText: taskInput.value.trim()
     }
 
@@ -25,12 +26,15 @@ function addTask() {
         //task delete
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Delete";
+        deleteButton.setAttribute("id","delete_"+a);
         deleteButton.addEventListener("click",deleteTask);
         listItem.appendChild(deleteButton);
 
 
         
     }
+
+    //save to local storage
     const toDoStringified = JSON.stringify(toDo);
     const tasks = [];
 
