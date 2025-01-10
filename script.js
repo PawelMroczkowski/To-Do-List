@@ -11,31 +11,8 @@ function addTask() {
         taskText: trimmedTaskInput
     }
 
-
-    //if not empty then add task and button to delete
-    if (toDo.taskText.value !== "") {
-        const listItem = document.createElement("li");
-        const paragraphElement = document.createElement("p");
-        listItem.appendChild(paragraphElement);
-        paragraphElement.textContent = toDo.taskText;
-        taskList.appendChild(listItem);
-        taskInput.value = "";
-        paragraphElement.setAttribute("id",a);
-        paragraphElement.setAttribute("class", "task");
-
-
-        //task delete
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Delete";
-        deleteButton.setAttribute("id","delete_"+a);
-        deleteButton.addEventListener("click",deleteTask);
-        listItem.appendChild(deleteButton);
-
-
-        
-    }
-
-
+    //call render task
+    renderTask(toDo);
     saveTaskToLocalStorage(toDo);
      
 }
@@ -73,3 +50,25 @@ function clearLocalStorage()    {
     location.reload();
 }
 
+
+function renderTask(toDo)   {
+    //if not empty then add task and button to delete
+    if (toDo.taskText.value !== "") {
+        const listItem = document.createElement("li");
+        const paragraphElement = document.createElement("p");
+        listItem.appendChild(paragraphElement);
+        paragraphElement.textContent = toDo.taskText;
+        taskList.appendChild(listItem);
+        taskInput.value = "";
+        paragraphElement.setAttribute("id",a);
+        paragraphElement.setAttribute("class", "task");
+
+
+        //task delete
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.setAttribute("id","delete_"+a);
+        deleteButton.addEventListener("click",deleteTask);
+        listItem.appendChild(deleteButton);   
+    }
+}
