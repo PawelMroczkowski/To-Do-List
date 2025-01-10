@@ -72,3 +72,7 @@ function renderTask(toDo)   {
         listItem.appendChild(deleteButton);   
     }
 }
+
+loadTasksFromLocalStorage().forEach(task => {
+    renderTask(task);    
+});
