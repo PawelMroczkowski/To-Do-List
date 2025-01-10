@@ -17,7 +17,6 @@ function addTask() {
         const listItem = document.createElement("li");
         const paragraphElement = document.createElement("p");
         listItem.appendChild(paragraphElement);
-
         paragraphElement.textContent = toDo.taskText;
         taskList.appendChild(listItem);
         taskInput.value = "";
@@ -36,25 +35,26 @@ function addTask() {
         
     }
 
-    const tasks = [];
-    const toDoStringified = JSON.stringify(toDo);
-    
-    for (let i=0; i < toDoStringified.length; i++) {
-        tasks.push(toDoStringified[i].textContent);
-    }
-    localStorage.setItem(toDo.id, toDoStringified);
-    
+
+    saveTaskToLocalStorage(toDo);
      
 }
 
 
-function saveTaskToLocalStorage()   {
+function saveTaskToLocalStorage(toDo)   {
     //save to local storage
-
+    let tasks = loadTasksFromLocalStorage();
+    tasks.push(toDo);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-saveTaskToLocalStorage();
 
+function loadTasksFromLocalStorage() {
+    let tasks = JSON.parse(localStorage.getItem("tasks"));
+    if (tasks === null) 
+        tasks = [];
+    return tasks;
+}
 
 
 
