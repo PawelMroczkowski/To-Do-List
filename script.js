@@ -60,14 +60,14 @@ function renderTask(toDo)   {
         paragraphElement.textContent = toDo.taskText;
         taskList.appendChild(listItem);
         taskInput.value = "";
-        paragraphElement.setAttribute("id",a);
+        paragraphElement.setAttribute("id",toDo.id);
         paragraphElement.setAttribute("class", "task");
 
 
         //task delete
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Delete";
-        deleteButton.setAttribute("id","delete_"+a);
+        deleteButton.setAttribute("id","delete_"+toDo.id);
         deleteButton.addEventListener("click",deleteTask);
         listItem.appendChild(deleteButton);   
     }
