@@ -1,13 +1,13 @@
 //Task Addition and Display
 const taskInput = document.getElementById("taskInput");
 const taskList = document.getElementById("taskList");
-let a=0;
+
 
 
 function addTask() {
     const trimmedTaskInput = taskInput.value.trim();
     const toDo  = {
-        id: trimmedTaskInput[0] + ++a + trimmedTaskInput[trimmedTaskInput.length-1],
+        id: crypto.randomUUID(),
         taskText: trimmedTaskInput
     }
 
