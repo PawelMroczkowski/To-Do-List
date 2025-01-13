@@ -86,33 +86,27 @@ loadTasksFromLocalStorage().forEach(task => {
 
 //sort tasks
 function sortTasksAtoZ() {
-
     let tasks = loadTasksFromLocalStorage();
-
     tasks.sort(function(a,b)    {
         if (a.taskText < b.taskText)    
             return -1;
         if (a.taskText > b.taskText)    
             return 1;
         return 0;
-
     });
-
     localStorage.setItem("tasks", JSON.stringify(tasks));
+    location.reload();
 }
 
 function sortTasksZtoA() {
-
     let tasks = loadTasksFromLocalStorage();
-
     tasks.sort(function(b,a)    {
         if (a.taskText < b.taskText)    
             return -1;
         if (a.taskText > b.taskText)    
             return 1;
         return 0;
-
     });
-
     localStorage.setItem("tasks", JSON.stringify(tasks));
+    location.reload();
 }
