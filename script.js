@@ -7,7 +7,8 @@ function addTask() {
     const trimmedTaskInput = taskInput.value.trim();
     const toDo  = {
         id: crypto.randomUUID(),
-        taskText: trimmedTaskInput
+        taskText: trimmedTaskInput,
+        completed: false
     }
     //call render task
     renderTask(toDo);
@@ -31,7 +32,7 @@ function loadTasksFromLocalStorage() {
 }
 
 
-//Task Deletion from render
+//Task Deletion from render and local storage
 function deleteTask(event) {
     const task = event.target.parentElement;
     taskList.removeChild(task);
@@ -55,20 +56,20 @@ function renderTask(toDo)   {
     if (toDo.taskText.value !== "") {
         const listItem = document.createElement("li");
         const paragraphElement = document.createElement("p");
-        listItem.appendChild(paragraphElement);
-        listItem.setAttribute("class","listItem")
-        listItem.setAttribute("id",toDo.id);
-        paragraphElement.textContent = toDo.taskText;
-        taskList.appendChild(listItem);
-        taskInput.value = "";
-        paragraphElement.setAttribute("class", "task");
+            listItem.appendChild(paragraphElement);
+            listItem.setAttribute("class","listItem")
+            listItem.setAttribute("id",toDo.id);
+                paragraphElement.textContent = toDo.taskText;
+                taskList.appendChild(listItem);
+                taskInput.value = "";
+                paragraphElement.setAttribute("class", "task");
 
 
         //render delete button
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Delete";
         deleteButton.addEventListener("click",deleteTask);
-        listItem.appendChild(deleteButton);   
+            listItem.appendChild(deleteButton);   
     }
 }
 
@@ -83,5 +84,35 @@ loadTasksFromLocalStorage().forEach(task => {
 });
 
 
+//sort tasks
+function sortTasksAtoZ() {
 
-// removeTaskInLocalStorage();
+    let tasks = loadTasksFromLocalStorage();
+
+    tasks.sort(function(a,b)    {
+        if (a.taskText < b.taskText)    
+            return -1;
+        if (a.taskText > b.taskText)    
+            return 1;
+        return 0;
+
+    });
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function sortTasksZtoA() {
+
+    let tasks = loadTasksFromLocalStorage();
+
+    tasks.sort(function(b,a)    {
+        if (a.taskText < b.taskText)    
+            return -1;
+        if (a.taskText > b.taskText)    
+            return 1;
+        return 0;
+
+    });
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
