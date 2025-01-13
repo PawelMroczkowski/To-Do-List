@@ -1,7 +1,6 @@
-//Task Addition and Display
+//Defining variables that get value from html
 const taskInput = document.getElementById("taskInput");
 const taskList = document.getElementById("taskList");
-
 
 
 function addTask() {
@@ -13,7 +12,6 @@ function addTask() {
     //call render task
     renderTask(toDo);
     saveTaskToLocalStorage(toDo);
-     
 }
 
 
@@ -37,30 +35,19 @@ function loadTasksFromLocalStorage() {
 function deleteTask(event) {
     const task = event.target.parentElement;
     taskList.removeChild(task);
-    
+    const listItemId = event.target.parentElement.id;
+    removeTaskInLocalStorage(listItemId);
 }
 
-const recreatedToDo = {};
 
 //Remove item from local storage
-function removeTaskInLocalStorage() {
-
-
-    const idClicked = document.getElementsByTagName('p')[0].id
+function removeTaskInLocalStorage(listItemId) {
+    const idClicked = listItemId;
     let tasks = loadTasksFromLocalStorage();
-    let results = tasks.filter((task) => task.id !== idClicked )
-       
-    //if id = get from document
-    //delete ToDo
+    let results = tasks.filter((task) => task.id !== idClicked ) 
     localStorage.setItem("tasks", JSON.stringify(results));
 }
 
-
-
-function clearLocalStorage()    {
-    localStorage.clear();
-    location.reload();
-}
 
 
 function renderTask(toDo)   {
@@ -69,20 +56,25 @@ function renderTask(toDo)   {
         const listItem = document.createElement("li");
         const paragraphElement = document.createElement("p");
         listItem.appendChild(paragraphElement);
+        listItem.setAttribute("class","listItem")
+        listItem.setAttribute("id",toDo.id);
         paragraphElement.textContent = toDo.taskText;
         taskList.appendChild(listItem);
         taskInput.value = "";
-        paragraphElement.setAttribute("id",toDo.id);
         paragraphElement.setAttribute("class", "task");
 
 
         //render delete button
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Delete";
-        deleteButton.setAttribute("id","delete_"+toDo.id);
         deleteButton.addEventListener("click",deleteTask);
         listItem.appendChild(deleteButton);   
     }
+}
+
+function clearLocalStorage()    {
+    localStorage.clear();
+    location.reload();
 }
 
 //render tasks from local storage 
@@ -92,4 +84,4 @@ loadTasksFromLocalStorage().forEach(task => {
 
 
 
-removeTaskInLocalStorage();
+// removeTaskInLocalStorage();
