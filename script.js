@@ -2,6 +2,7 @@
 const taskInput = document.getElementById("taskInput");
 const taskList = document.getElementById("taskList");
 
+//take input value and use to create object with generated id
 function addTask() {
   const trimmedTaskInput = taskInput.value.trim();
   const toDo = {
@@ -11,11 +12,11 @@ function addTask() {
   };
   //call render task
   renderTask(toDo);
-  saveTaskToLocalStorage(toDo);
+  saveTaskToLocalStorageToDo(toDo);
 }
 
 //save to local storage
-function saveTaskToLocalStorage(toDo) {
+function saveTaskToLocalStorageToDo(toDo) {
   let tasks = loadTasksFromLocalStorage();
   tasks.push(toDo);
   localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -40,17 +41,17 @@ function deleteTask(event) {
 function removeTaskInLocalStorage(listItemId) {
   const idClicked = listItemId;
   let tasks = loadTasksFromLocalStorage();
-  let results = tasks.filter((task) => task.id !== idClicked);
-  localStorage.setItem("tasks", JSON.stringify(results));
+  let resultTasks = tasks.filter((task) => task.id !== idClicked);
+  localStorage.setItem("tasks", JSON.stringify(resultTasks));
 }
 
+//render task
 function renderTask(toDo) {
-  //if not empty then render task
   if (toDo.taskText.value !== "") {
     const listItem = document.createElement("li");
     const paragraphElement = document.createElement("p");
     listItem.appendChild(paragraphElement);
-    listItem.setAttribute("class", "listItem");
+    listItem.classList.add("listItem");
     listItem.setAttribute("id", toDo.id);
     paragraphElement.textContent = toDo.taskText;
     taskList.appendChild(listItem);
@@ -72,17 +73,14 @@ function renderTask(toDo) {
   }
 }
 
+//Clear Local Storage
 function clearLocalStorage() {
   localStorage.clear();
   location.reload();
 }
 
-//render tasks from local storage
-loadTasksFromLocalStorage().forEach((task) => {
-  renderTask(task);
-});
 
-//sort tasks
+//sorting alphabetically from A to Z
 function sortTasksAtoZ() {
   let tasks = loadTasksFromLocalStorage();
   tasks.sort(function (a, b) {
@@ -94,6 +92,7 @@ function sortTasksAtoZ() {
   location.reload();
 }
 
+//sorting alphabetically from Z to A
 function sortTasksZtoA() {
   let tasks = loadTasksFromLocalStorage();
   tasks.sort(function (b, a) {
@@ -105,6 +104,7 @@ function sortTasksZtoA() {
   location.reload();
 }
 
+//changes completed attribute of signle object and saves to local storage
 function completedTaskToggle(event) {
   let tasks = loadTasksFromLocalStorage();
   let isChecked = event.target.checked;
@@ -116,14 +116,35 @@ function completedTaskToggle(event) {
       task.completed = true;
       return task.id == targetId;
     });
-    tasks.concat(taskChecked);
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  } else if (isChecked == false) {
+
+    event.target.parentElement.classList.add("completed");
+    if (event.target.parentElement.classList.contains("uncompleted")) {
+      event.target.parentElement.classList.remove("uncompleted");
+    }
+      tasks.concat(taskChecked);
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+ 
+    // $("#event.target.parentElement").addClass("completed");
+  } else {
     taskChecked = tasks.filter(function (task) {
       task.completed = false;
       return task.id == targetId;
     });
+
+    event.target.parentElement.classList.add("uncompleted");
+    if (event.target.parentElement.classList.contains("completed")) {
+      event.target.parentElement.classList.remove("completed");
+    }
     tasks.concat(taskChecked);
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }
 }
+
+
+
+//render tasks from local storage
+loadTasksFromLocalStorage().forEach((task) => {
+  renderTask(task);
+});
+
+//use completed object attribute to render if task is completed in html

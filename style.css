@@ -45,7 +45,7 @@ p {
 }
 
 .completed {
-  text-decoration: 2px line-through red;
+  text-decoration: 2px line-through rgb(0, 0, 0);
 }
 
 .checkboxes {
