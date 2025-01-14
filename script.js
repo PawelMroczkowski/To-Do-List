@@ -105,4 +105,25 @@ function sortTasksZtoA() {
   location.reload();
 }
 
-function completedTaskToggle() {}
+function completedTaskToggle(event) {
+  let tasks = loadTasksFromLocalStorage();
+  let isChecked = event.target.checked;
+  let targetId = event.target.parentElement.id;
+  let taskChecked;
+
+  if (isChecked == true) {
+    taskChecked = tasks.filter(function (task) {
+      task.completed = true;
+      return task.id == targetId;
+    });
+    tasks.concat(taskChecked);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  } else if (isChecked == false) {
+    taskChecked = tasks.filter(function (task) {
+      task.completed = false;
+      return task.id == targetId;
+    });
+    tasks.concat(taskChecked);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
+}
