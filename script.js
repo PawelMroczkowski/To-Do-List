@@ -79,7 +79,6 @@ function clearLocalStorage() {
   location.reload();
 }
 
-
 //sorting alphabetically from A to Z
 function sortTasksAtoZ() {
   let tasks = loadTasksFromLocalStorage();
@@ -104,47 +103,36 @@ function sortTasksZtoA() {
   location.reload();
 }
 
-//changes completed attribute of signle object and saves to local storage
-function completedTaskToggle(event) {
-  let tasks = loadTasksFromLocalStorage();
-  let isChecked = event.target.checked;
-  let targetId = event.target.parentElement.id;
-  let taskChecked;
-
-  if (isChecked == true) {
-    taskChecked = tasks.filter(function (task) {
-      task.completed = true;
-      return task.id == targetId;
-    });
-
-    event.target.parentElement.classList.add("completed");
-    if (event.target.parentElement.classList.contains("uncompleted")) {
-      event.target.parentElement.classList.remove("uncompleted");
-    }
-      tasks.concat(taskChecked);
-      localStorage.setItem("tasks", JSON.stringify(tasks));
- 
-    // $("#event.target.parentElement").addClass("completed");
-  } else {
-    taskChecked = tasks.filter(function (task) {
-      task.completed = false;
-      return task.id == targetId;
-    });
-
-    event.target.parentElement.classList.add("uncompleted");
-    if (event.target.parentElement.classList.contains("completed")) {
-      event.target.parentElement.classList.remove("completed");
-    }
-    tasks.concat(taskChecked);
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }
-}
-
-
-
 //render tasks from local storage
 loadTasksFromLocalStorage().forEach((task) => {
   renderTask(task);
 });
 
-//use completed object attribute to render if task is completed in html
+//completed functionality
+function completedTaskToggle(event) {
+  let tasks = loadTasksFromLocalStorage();
+  let isChecked = event.target.checked;
+  let targetId = event.target.parentElement.id;
+  let taskChecked;
+  if (isChecked) {
+    taskChecked = tasks.filter((task) => task.id == targetId)[0];
+    taskChecked.completed = true;
+    tasks.concat(taskChecked);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    event.target.parentElement.classList.add("completed");
+    if (event.target.parentElement.classList.contains("uncompleted")) {
+      event.target.parentElement.classList.remove("uncompleted");
+    }
+  } else if (!isChecked) {
+    taskChecked = tasks.filter((task) => task.id == targetId)[0];
+    taskChecked.completed = false;
+    tasks.concat(taskChecked);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    event.target.parentElement.classList.add("uncompleted");
+    if (event.target.parentElement.classList.contains("completed")) {
+      event.target.parentElement.classList.remove("completed");
+    }
+  }
+
+  // let resultTasks = tasks.filter((task) => task.id !== idClicked);
+}
