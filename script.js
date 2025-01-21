@@ -5,20 +5,20 @@ const taskList = document.getElementById("taskList");
 //take input value and use to create object with generated id
 function addTask() {
   const trimmedTaskInput = taskInput.value.trim();
-  const toDo = {
+  const task = {
     id: crypto.randomUUID(),
     taskText: trimmedTaskInput,
     completed: false,
   };
   //call render task
-  renderTask(toDo);
-  saveTaskToLocalStorageToDo(toDo);
+  renderTask(task);
+  saveTaskToLocalStorageToDo(task);
 }
 
 //save to local storage
-function saveTaskToLocalStorageToDo(toDo) {
+function saveTaskToLocalStorageToDo(task) {
   let tasks = loadTasksFromLocalStorage();
-  tasks.push(toDo);
+  tasks.push(task);
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
@@ -46,17 +46,23 @@ function removeTaskInLocalStorage(listItemId) {
 }
 
 //render task
-function renderTask(toDo) {
-  if (toDo.taskText.value !== "") {
+function renderTask(task) {
+  if (task.taskText.value !== "") {
     const listItem = document.createElement("li");
     const paragraphElement = document.createElement("p");
     listItem.appendChild(paragraphElement);
     listItem.classList.add("listItem");
-    listItem.setAttribute("id", toDo.id);
-    paragraphElement.textContent = toDo.taskText;
+    listItem.setAttribute("id", task.id);
+    paragraphElement.textContent = task.taskText;
     taskList.appendChild(listItem);
     taskInput.value = "";
     paragraphElement.setAttribute("class", "task");
+
+    //render edit button
+    const editTaskButton = document.createElement("button");
+    editTaskButton.textContent = "Edit: ";
+    editTaskButton.addEventListener("click", editTask);
+    listItem.appendChild(editTaskButton);
 
     //render delete button
     const deleteButton = document.createElement("button");
@@ -65,11 +71,13 @@ function renderTask(toDo) {
     listItem.appendChild(deleteButton);
 
     //render checkbox
-    const checkboxCompleted = document.createElement("input");
-    checkboxCompleted.setAttribute("type", "checkbox");
-    checkboxCompleted.setAttribute("class", "checkboxes");
-    checkboxCompleted.addEventListener("click", completedTaskToggle);
-    listItem.appendChild(checkboxCompleted);
+    const checkboxCompletedButton = document.createElement("input");
+    checkboxCompletedButton.setAttribute("type", "checkbox");
+    checkboxCompletedButton.setAttribute("class", "checkboxes");
+    checkboxCompletedButton.addEventListener("click", completedTaskToggle);
+    listItem.appendChild(checkboxCompletedButton);
+
+
   }
 }
 
@@ -136,3 +144,32 @@ function completedTaskToggle(event) {
 
   // let resultTasks = tasks.filter((task) => task.id !== idClicked);
 }
+
+function editTask(event) {
+  let tasks = loadTasksFromLocalStorage();
+  let targetId = event.target.parentElement.id;
+  let taskToEdit;
+  console.log(targetId);
+  taskToEdit = tasks.filter((task) => task.id == targetId)[0];
+  console.log(taskToEdit);
+  let editWindow = document.createElement("input");
+  editWindow.setAttribute("type", "text");
+  editWindow.setAttribute("class", "editText");
+  editWindow.defaultValue = taskToEdit.taskText;
+  event.target.parentElement.appendChild(editWindow);
+  let editedTaskText = document.getElementById(targetId).getElementsByClassName("editText")[0];
+  let editWindowApplyButton = document.createElement("button");
+  editWindowApplyButton.textContent = "Apply";
+  event.target.parentElement.appendChild(editWindowApplyButton);
+  // editWindowApplyButton.addEventListener("click", taskToEdit.taskText = editedTaskText);
+  console.log(editedTaskText.value);
+
+
+  // function saveAndRender(){
+  //   tasks.concat(taskToEdit);
+  //   renderTask(tasks);
+  // }
+
+}
+
+// <input type="text" id="taskInput" placeholder="Add a new task" />
