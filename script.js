@@ -76,8 +76,6 @@ function renderTask(task) {
     checkboxCompletedButton.setAttribute("class", "checkboxes");
     checkboxCompletedButton.addEventListener("click", completedTaskToggle);
     listItem.appendChild(checkboxCompletedButton);
-
-
   }
 }
 
@@ -141,35 +139,41 @@ function completedTaskToggle(event) {
       event.target.parentElement.classList.remove("completed");
     }
   }
-
-  // let resultTasks = tasks.filter((task) => task.id !== idClicked);
 }
 
 function editTask(event) {
+  //load tasks and define variables to filter edited item by id
   let tasks = loadTasksFromLocalStorage();
-  let targetId = event.target.parentElement.id;
   let taskToEdit;
-  console.log(targetId);
+  let targetId = event.target.parentElement.id;
   taskToEdit = tasks.filter((task) => task.id == targetId)[0];
-  console.log(taskToEdit);
+  //create html elements - input window
   let editWindow = document.createElement("input");
   editWindow.setAttribute("type", "text");
   editWindow.setAttribute("class", "editText");
   editWindow.defaultValue = taskToEdit.taskText;
   event.target.parentElement.appendChild(editWindow);
-  let editedTaskText = document.getElementById(targetId).getElementsByClassName("editText")[0];
+
+  //create apply button
   let editWindowApplyButton = document.createElement("button");
   editWindowApplyButton.textContent = "Apply";
   event.target.parentElement.appendChild(editWindowApplyButton);
-  // editWindowApplyButton.addEventListener("click", taskToEdit.taskText = editedTaskText);
-  console.log(editedTaskText.value);
-
-
-  // function saveAndRender(){
-  //   tasks.concat(taskToEdit);
-  //   renderTask(tasks);
-  // }
-
+  editWindowApplyButton.addEventListener("click", applyEdit);
 }
 
-// <input type="text" id="taskInput" placeholder="Add a new task" />
+function applyEdit(event) {
+  let tasks = loadTasksFromLocalStorage();
+  let targetId = event.target.parentElement.id;
+  let taskToEdit;
+  taskToEdit = tasks.filter((task) => task.id == targetId)[0];
+
+  // let editedTaskText = document
+  //   .getElementById(targetId)
+  //   .getElementsByClassName("editText")[0].value;
+  let editedTaskText = event.target.parentElement.getElementsByClassName("editText")[0].value;
+  taskToEdit.taskText = editedTaskText;
+  console.log(taskToEdit);
+  tasks.concat(taskToEdit);
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  location.reload();
+}
