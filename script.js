@@ -47,11 +47,12 @@ function removeTaskInLocalStorage(listItemId) {
 
 //render task
 function renderTask(task) {
+  let completedStatus = task.completed ? "completed" : "uncompleted";
   if (task.taskText.value !== "") {
     const listItem = document.createElement("li");
     const paragraphElement = document.createElement("p");
     listItem.appendChild(paragraphElement);
-    listItem.classList.add("listItem");
+    listItem.classList.add("listItem", completedStatus);
     listItem.setAttribute("id", task.id);
     paragraphElement.textContent = task.taskText;
     taskList.appendChild(listItem);
@@ -76,6 +77,12 @@ function renderTask(task) {
     checkboxCompletedButton.setAttribute("class", "checkboxes");
     checkboxCompletedButton.addEventListener("click", completedTaskToggle);
     listItem.appendChild(checkboxCompletedButton);
+    //render checkbox status from task.completed attribute
+    if (task.completed == true) {
+      checkboxCompletedButton.checked = true;
+    } else {
+      checkboxCompletedButton.checked = false;
+    }
   }
 }
 
@@ -120,8 +127,8 @@ function completedTaskToggle(event) {
   let isChecked = event.target.checked;
   let targetId = event.target.parentElement.id;
   let taskChecked;
+  taskChecked = tasks.filter((task) => task.id == targetId)[0];
   if (isChecked) {
-    taskChecked = tasks.filter((task) => task.id == targetId)[0];
     taskChecked.completed = true;
     tasks.concat(taskChecked);
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -130,7 +137,6 @@ function completedTaskToggle(event) {
       event.target.parentElement.classList.remove("uncompleted");
     }
   } else if (!isChecked) {
-    taskChecked = tasks.filter((task) => task.id == targetId)[0];
     taskChecked.completed = false;
     tasks.concat(taskChecked);
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -166,11 +172,8 @@ function applyEdit(event) {
   let targetId = event.target.parentElement.id;
   let taskToEdit;
   taskToEdit = tasks.filter((task) => task.id == targetId)[0];
-
-  // let editedTaskText = document
-  //   .getElementById(targetId)
-  //   .getElementsByClassName("editText")[0].value;
-  let editedTaskText = event.target.parentElement.getElementsByClassName("editText")[0].value;
+  let editedTaskText =
+    event.target.parentElement.getElementsByClassName("editText")[0].value;
   taskToEdit.taskText = editedTaskText;
   console.log(taskToEdit);
   tasks.concat(taskToEdit);
