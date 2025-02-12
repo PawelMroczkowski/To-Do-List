@@ -1,8 +1,11 @@
 import { test, expect } from "@playwright/test";
 import { assert } from "console";
 
+test.beforeEach(async ({ page }) => {
+  await page.goto('./');
+});
+
 test("ToDo_001 Add task: correct.", async ({ page }) => {
-  await page.goto("https://pawelmroczkowski.github.io/To-Do-List/");
   await page.getByRole("textbox", { name: "Add a new task" }).click();
   await page
     .getByRole("textbox", { name: "Add a new task" })
@@ -27,7 +30,6 @@ test("ToDo_001 Add task: correct.", async ({ page }) => {
 });
 
 test("ToDo_002 Add task: empty.", async ({ page }) => {
-  await page.goto("https://pawelmroczkowski.github.io/To-Do-List/");
   await page.getByRole("button", { name: "Add Task" }).click();
   await expect
     .soft(
@@ -47,7 +49,6 @@ test("ToDo_002 Add task: empty.", async ({ page }) => {
 });
 
 test("ToDo_003 Add task: space filled task.", async ({ page }) => {
-  await page.goto("https://pawelmroczkowski.github.io/To-Do-List/");
   await page.getByRole("textbox", { name: "Add a new task" }).click();
   await page
     .getByRole("textbox", { name: "Add a new task" })
@@ -72,7 +73,6 @@ test("ToDo_003 Add task: space filled task.", async ({ page }) => {
 });
 
 test("ToDo_004 Add task: numbers and specials.", async ({ page }) => {
-  await page.goto("https://pawelmroczkowski.github.io/To-Do-List/");
   await page.getByRole("textbox", { name: "Add a new task" }).click();
   await page
     .getByRole("textbox", { name: "Add a new task" })
@@ -94,4 +94,8 @@ test("ToDo_004 Add task: numbers and specials.", async ({ page }) => {
     .getByRole("textbox", { name: "Add a new task" })
     .getAttribute("placeholder");
   expect(placeholderText, 'Placeholder text default value').toEqual("Add a new task");
+});
+
+test.afterEach(async ({ page }) => {
+  await page.getByRole('button', { name: 'Clear Local Storage' }).click();
 });
