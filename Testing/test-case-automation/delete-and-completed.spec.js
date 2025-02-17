@@ -32,7 +32,3 @@ test("ToDo_010 Toggle task: completed to false.", async ({ page }) => {
     await page.getByRole('checkbox').uncheck();
     await expect(page.getByRole('checkbox')).not.toBeChecked();
 });
-
-test.afterEach(async ({ page }) => {
-  await page.getByRole("button", { name: "Clear Local Storage" }).click();
-});
