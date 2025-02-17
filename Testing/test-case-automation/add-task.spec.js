@@ -95,7 +95,3 @@ test("ToDo_004 Add task: numbers and specials.", async ({ page }) => {
     .getAttribute("placeholder");
   expect(placeholderText, 'Placeholder text default value').toEqual("Add a new task");
 });
-
-test.afterEach(async ({ page }) => {
-  await page.getByRole('button', { name: 'Clear Local Storage' }).click();
-});

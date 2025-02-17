@@ -44,8 +44,3 @@ test('ToDo_007 Edit: spaces only.', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Apply' })).not.toBeVisible();
   await expect(page.getByRole('paragraph')).toContainText('        ');
 });
-
-
-test.afterEach(async ({ page }) => {
-    await page.getByRole('button', { name: 'Clear Local Storage' }).click();
-  });
