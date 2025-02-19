@@ -83,13 +83,18 @@ function renderTask(task) {
     } else {
       checkboxCompletedButton.checked = false;
     }
+  } else {
+    let tasks = [];
+    localStorage.setItem("tasks", JSON.stringify(tasks));
   }
 }
 
 //Clear Local Storage
 function clearLocalStorage() {
+  let tasks = [];
   localStorage.clear();
   location.reload();
+  localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
 //sorting alphabetically from A to Z
