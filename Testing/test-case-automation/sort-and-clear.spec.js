@@ -3,43 +3,33 @@ import { assert } from "console";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("./");
-  await page.getByRole("textbox", { name: "Add a new task" }).click();
+  const findAddTaskTextbox = page.getByRole("textbox", {
+    name: "Add a new task",
+  });
+  const findAddTaskButton = page.getByRole("button", { name: "Add Task" });
+  await findAddTaskTextbox.click();
 
   //adding tasks that are not in A-Z or Z-A order
-  await page
-    .getByRole("textbox", { name: "Add a new task" })
-    .fill("  Write To-Do list.");
-  await page.getByRole("button", { name: "Add Task" }).click();
+  await findAddTaskTextbox.fill("Write To-Do list.");
+  await findAddTaskButton.click();
 
-  await page
-    .getByRole("textbox", { name: "Add a new task" })
-    .fill("Add some tasks to list.");
-  await page.getByRole("button", { name: "Add Task" }).click();
+  await findAddTaskTextbox.fill("Add some tasks to list.");
+  await findAddTaskButton.click();
 
-  await page
-    .getByRole("textbox", { name: "Add a new task" })
-    .fill("Check some tasks as completed.");
-  await page.getByRole("button", { name: "Add Task" }).click();
+  await findAddTaskTextbox.fill("Check some tasks as completed.");
+  await findAddTaskButton.click();
 
-  await page
-    .getByRole("textbox", { name: "Add a new task" })
-    .fill("Sort tasks.");
-  await page.getByRole("button", { name: "Add Task" }).click();
+  await findAddTaskTextbox.fill("Sort tasks.");
+  await findAddTaskButton.click();
 
-  await page
-    .getByRole("textbox", { name: "Add a new task" })
-    .fill("Delete one task.");
-  await page.getByRole("button", { name: "Add Task" }).click();
+  await findAddTaskTextbox.fill("Delete one task.");
+  await findAddTaskButton.click();
 
-  await page
-    .getByRole("textbox", { name: "Add a new task" })
-    .fill("Prepare more tests.");
-  await page.getByRole("button", { name: "Add Task" }).click();
+  await findAddTaskTextbox.fill("Prepare more tests.");
+  await findAddTaskButton.click();
 
-  await page
-    .getByRole("textbox", { name: "Add a new task" })
-    .fill("Edit at least 2 tasks.");
-  await page.getByRole("button", { name: "Add Task" }).click();
+  await findAddTaskTextbox.fill("Edit at least 2 tasks.");
+  await findAddTaskButton.click();
 });
 
 test("ToDo_011 Sort tasks: A-Z.", async ({ page }) => {
