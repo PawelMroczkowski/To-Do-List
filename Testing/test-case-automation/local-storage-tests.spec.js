@@ -207,13 +207,39 @@ test("ToDo_015 Local storage checking.", async ({ page }) => {
   });
 
   await test.step("Toggle not completed", async () => {
-    // const listItem = page.getByRole("listitem");
-    // const checkbox = listItem.getByRole("checkbox");
-    // //wait for visible element
-    // await expect(
-    //   page.getByRole("heading", { name: "To-Do List" })
-    // ).toBeVisible();
+    const listItem = page.getByRole("listitem");
+    const checkbox = listItem.getByRole("checkbox");
+    //wait for visible element
+    await expect(
+      page.getByRole("heading", { name: "To-Do List" })
+    ).toBeVisible();
+    // uncheck task that is checked
+    await checkbox.nth(2).click();
+    //load storage
+    tasks = await page.evaluate(() =>
+      JSON.parse(localStorage.getItem("tasks"))
+    );
+    //none of tasks should be completed now
+    for (const task of tasks) {
+      await expect(
+        task.completed,
+        "Check if task is not completed"
+      ).not.toBeTruthy();
+    }
   });
-
-  await test.step("Clear local storage", async () => {});
+  await test.step("Clear local storage", async () => {
+    //wait for visible element
+    await expect(
+      page.getByRole("heading", { name: "To-Do List" })
+    ).toBeVisible();
+  });
+  //delete all tasks by button
+  await page.getByRole("button", { name: "Clear Local Storage" }).click();
+  //load storage
+  tasks = await page.evaluate(() => JSON.parse(localStorage.getItem("tasks")));
+  //check if array is empty
+  await expect(
+    Array.isArray(tasks) && tasks.length === 0,
+    "Is array empty"
+  ).toBeTruthy();
 });
