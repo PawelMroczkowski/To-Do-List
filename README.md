@@ -18,7 +18,7 @@ This repository contains a spreadsheet with test cases that focused on verifying
 - Sorting tasks A-Z, Z-A.
 - Clearing local storage with a button.
 
-The spreadsheet can be found here: (To-Do)
+The spreadsheet can be found here: [Test Case Sheet.ods](https://github.com/PawelMroczkowski/To-Do-List/raw/refs/heads/main/Test%20Cases/Test%20Case%20Sheet.ods)
 
 ## Automated Playwright tests
 
